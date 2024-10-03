@@ -4,10 +4,8 @@ $(document).ready(function() {
         var target = $($(this).attr("href"));
         if (target.length) {
             $("html, body").animate({
-                    scrollTop: target.offset().top - 15,
-                },
-                1000
-            );
+                scrollTop: target.offset().top - 15,
+            }, 1000);
         }
     });
 
@@ -16,17 +14,26 @@ $(document).ready(function() {
         $(".nav-link").each(function() {
             var currLink = $(this);
             var refElement = $($(this).attr("href"));
-            if (refElement.position().top - 50 <= scrollPos &&
-                refElement.position().top + refElement.height() > scrollPos) {
-                $(".nav-link").removeClass("active");
-                currLink.addClass("active");
+            var targetOffset = refElement.offset().top;
+    
+            if (targetOffset - 50 <= scrollPos && targetOffset + refElement.outerHeight() > scrollPos) {
+                if (refElement.attr('id') === 'footer') {
+                    $(".nav-link").removeClass("active");
+                } else {
+                    $(".nav-link").removeClass("active");
+                    currLink.addClass("active");
+                }
             } else {
                 currLink.removeClass("active");
             }
         });
-    });
+    
+        if (scrollPos + $(window).height() >= $(document).height()) {
+            $(".nav-link").removeClass("active");
+        }
+    });    
 
-    $(".testimonials-container").slick({
+    $(".work-experience-container").slick({
         slidesToShow: 2,
         slidesToScroll: 1,
         dots: true,
@@ -37,7 +44,7 @@ $(document).ready(function() {
             settings: {
                 slidesToShow: 1,
             },
-        }, ],
+        }],
     });
 
     $(".menu-btn").click(function() {
